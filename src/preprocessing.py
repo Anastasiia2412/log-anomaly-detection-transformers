@@ -1,5 +1,4 @@
 import re
-import pandas as pd
 
 
 def normalize_message(text: str) -> str:
@@ -35,14 +34,24 @@ def normalize_message(text: str) -> str:
         text,
     )
 
-    text = re.sub(r"\b0x[0-9a-f]+\b", "<hex>", text)
-    text = re.sub(r"\b\d+\b", "<num>", text)
+    text = re.sub(
+        r"\b0x[0-9a-f]+\b",
+        "<hex>",
+        text,
+    )
+
+    text = re.sub(
+        r"\b\d+\b",
+        "<num>",
+        text,
+    )
+
     text = re.sub(r"\s+", " ", text).strip()
 
     return text
 
 
-def add_event_tokens(df: pd.DataFrame) -> pd.DataFrame:
+def add_event_tokens(df):
     df = df.copy()
 
     df["NormalizedMessage"] = df["Message"].apply(normalize_message)

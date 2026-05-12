@@ -25,3 +25,26 @@ env/
 .vscode/
 .idea/
 .streamlit/secrets.toml
+
+# Local vocabulary artifacts
+artifacts/*.json
+
+# Local model/vocabulary artifacts
+artifacts/*.pt
+artifacts/*.pth
+artifacts/*.pkl
+artifacts/*.pickle
+artifacts/*.json
+
+# Python/cache/system
+__pycache__/
+*.pyc
+.DS_Store
+src/.DS_Store
+
+# Local model/vocabulary artifacts
+artifacts/*.pt
+artifacts/*.pth
+artifacts/*.pkl
+artifacts/*.pickle
+artifacts/*.json

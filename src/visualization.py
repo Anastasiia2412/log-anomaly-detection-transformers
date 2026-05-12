@@ -1,51 +1,29 @@
-import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
 
 
-def make_score_timeline(df: pd.DataFrame, threshold: float | None = None):
+def make_score_timeline(df, threshold):
+    plot_df = df.copy()
+    plot_df["WindowStart"] = plot_df["WindowStart"].astype(str)
+
     fig = px.line(
-        df,
+        plot_df,
         x="WindowStart",
         y="anomaly_score",
-        color="risk_level" if "risk_level" in df.columns else None,
+        color="prediction",
+        title="Transformer anomaly score timeline",
         markers=True,
-        title="Anomaly score over time",
     )
 
-    if threshold is not None:
-        fig.add_hline(
-            y=threshold,
-            line_dash="dash",
-            annotation_text=f"threshold={threshold:.3f}",
-        )
+    fig.add_hline(
+        y=threshold,
+        line_dash="dash",
+        annotation_text=f"threshold={threshold:.3f}",
+    )
 
     fig.update_layout(
-        xaxis_title="Time",
+        xaxis_title="Window start",
         yaxis_title="Anomaly score",
-        height=450,
-    )
-
-    return fig
-
-
-def make_level_distribution(df: pd.DataFrame):
-    rows = []
-
-    for levels in df["Levels"]:
-        for level in levels:
-            rows.append({"Level": level})
-
-    level_df = pd.DataFrame(rows)
-
-    if level_df.empty:
-        return None
-
-    fig = px.bar(
-        level_df["Level"].value_counts().reset_index(),
-        x="Level",
-        y="count",
-        title="Event level distribution in windows",
+        legend_title="Prediction",
     )
 
     return fig

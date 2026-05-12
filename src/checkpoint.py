@@ -1,64 +1,58 @@
-import io
 import json
-import pickle
+from pathlib import Path
+
 import torch
 
-from src.model import build_transformer_from_config
+from src.model import TransformerNextEvent
 
 
-def load_token_to_id_from_uploaded_file(uploaded_file):
-    name = uploaded_file.name.lower()
-    raw = uploaded_file.read()
+def load_json_dict(path: str) -> dict:
+    path = Path(path)
 
-    if name.endswith(".json"):
-        return json.loads(raw.decode("utf-8"))
+    if not path.exists():
+        raise FileNotFoundError(f"File not found: {path}")
 
-    if name.endswith(".pkl") or name.endswith(".pickle"):
-        return pickle.loads(raw)
-
-    raise ValueError("Unsupported vocab format. Use .json or .pkl")
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 
-def load_model_from_uploaded_checkpoint(
-    uploaded_file,
-    vocab_size,
-    device="cpu",
-    default_config=None,
-):
-    if default_config is None:
-        default_config = {
-            "pad_idx": 0,
-            "d_model": 128,
-            "nhead": 4,
-            "num_layers": 2,
-            "dim_feedforward": 256,
-            "dropout": 0.1,
-            "max_len": 64,
-        }
+def load_token_to_id(path: str) -> dict:
+    return load_json_dict(path)
 
-    raw = uploaded_file.read()
-    checkpoint = torch.load(
-        io.BytesIO(raw),
-        map_location=device,
+
+def load_template_to_id(path: str) -> dict:
+    return load_json_dict(path)
+
+
+def load_model_checkpoint(model_path: str, device: str = "cpu"):
+    model_path = Path(model_path)
+
+    if not model_path.exists():
+        raise FileNotFoundError(f"Model checkpoint not found: {model_path}")
+
+    checkpoint = torch.load(model_path, map_location=device)
+
+    if "model_config" not in checkpoint:
+        raise ValueError("Checkpoint must contain model_config")
+
+    if "model_state_dict" not in checkpoint:
+        raise ValueError("Checkpoint must contain model_state_dict")
+
+    config = checkpoint["model_config"]
+
+    model = TransformerNextEvent(
+        vocab_size=int(config["vocab_size"]),
+        d_model=int(config.get("d_model", 128)),
+        nhead=int(config.get("nhead", 4)),
+        num_layers=int(config.get("num_layers", 2)),
+        dim_feedforward=int(config.get("dim_feedforward", 256)),
+        dropout=float(config.get("dropout", 0.1)),
+        max_len=int(config.get("max_len", 64)),
+        pad_idx=int(config.get("pad_idx", 0)),
     )
 
-    if isinstance(checkpoint, dict) and "model_state_dict" in checkpoint:
-        model_config = checkpoint.get("model_config", default_config)
-        state_dict = checkpoint["model_state_dict"]
-    elif isinstance(checkpoint, dict) and "state_dict" in checkpoint:
-        model_config = checkpoint.get("model_config", default_config)
-        state_dict = checkpoint["state_dict"]
-    else:
-        model_config = default_config
-        state_dict = checkpoint
-
-    model = build_transformer_from_config(
-        vocab_size=vocab_size,
-        config=model_config,
-    )
-
-    model.load_state_dict(state_dict)
+    model.load_state_dict(checkpoint["model_state_dict"])
     model.to(device)
     model.eval()
 
-    return model, model_config
+    return model, config, checkpoint
