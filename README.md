@@ -26,7 +26,7 @@ Service purpose
 
 The service is designed for analysing exported Windows Event Logs and helping a DBA or system engineer identify suspicious time intervals faster.
 
-Instead of reviewing thousands of raw log entries manually, the application:
+The application:
 
 parses System and Application CSV files;
 normalizes event messages;
@@ -40,16 +40,6 @@ exports the result as a CSV report.
 Required local artifacts
 
 The service expects trained model artifacts in:
-
-src/artifacts/
-
-Required files:
-
-transformer_windows_30min_v3.pt
-token_to_id_windows_30min_v3.json
-template_to_id_windows_30min_v3.json
-
-These files are not stored in GitHub. They are kept locally because they contain trained model weights and environment-specific event-template mappings.
 
 Input data format
 
@@ -119,15 +109,8 @@ UnkRatio — share of unknown tokens;
 key_events — important Event IDs and sources in the selected window;
 LocalNLL — local negative log-likelihood for event-level inspection;
 Forecasted risk — estimated anomaly risk for the next 30-minute window.
-Notes
-
-The service does not replace a DBA or monitoring system. It helps prioritize log inspection by highlighting time windows with unusual event sequences.
-
-High anomaly score means that the event pattern was unexpected for the trained Transformer model. It does not automatically prove the root cause of an incident. The result should be interpreted together with SQL Server logs, Windows system state, service history, and administrator knowledge.
 
 Notebooks
-
-The notebooks/ directory contains the experimental part of the project:
 
 Windows_dataset.ipynb — Windows Event Log parsing and sequence construction;
 Windows_logs_training.ipynb — labelled sequence preparation and training data export;
