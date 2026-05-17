@@ -48,3 +48,10 @@ artifacts/*.pth
 artifacts/*.pkl
 artifacts/*.pickle
 artifacts/*.json
+
+# Local service artifacts
+src/artifacts/*.pt
+src/artifacts/*.pth
+src/artifacts/*.pkl
+src/artifacts/*.pickle
+src/artifacts/*.json
