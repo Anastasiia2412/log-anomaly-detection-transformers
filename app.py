@@ -28,7 +28,7 @@ from src.sequence_builder import (
     split_long_sequences,
 )
 from src.encoding import add_encoded_features
-from src.scoring import extract_key_events
+from src.scoring import extract_key_events, forecast_next_window_risk
 from src.transformer_inference import add_transformer_predictions
 from src.checkpoint import (
     load_token_to_id,
@@ -318,7 +318,53 @@ st.dataframe(
 )
 
 
-st.header("6. Window details with LocalNLL")
+st.header("6. Next-window anomaly risk forecast")
+
+forecast = forecast_next_window_risk(
+    scored_df=scored,
+    threshold=THRESHOLD,
+    lookback=6,
+)
+
+c1, c2, c3 = st.columns(3)
+
+c1.metric(
+    "Forecasted risk",
+    str(forecast["forecast_risk"]).upper(),
+)
+
+c2.metric(
+    "Forecast probability",
+    f"{forecast['forecast_probability']:.3f}",
+)
+
+c3.metric(
+    "Forecast score",
+    f"{forecast['forecast_score']:.3f}",
+)
+
+scored_by_time = scored.sort_values("WindowStart")
+
+last_window_start = scored_by_time["WindowStart"].iloc[-1]
+last_window_end = scored_by_time["WindowEnd"].iloc[-1]
+
+st.write("Last observed window:")
+st.code(
+    f"{last_window_start} — {last_window_end}",
+    language="text",
+)
+
+st.write("Forecast horizon:")
+st.code(
+    f"Next {WINDOW_SIZE} window",
+    language="text",
+)
+
+st.write("Forecast explanation:")
+st.info(forecast["reason"])
+
+
+st.header("7. Window details with LocalNLL")
 
 selected_idx = st.number_input(
     "Select row index from suspicious windows table",
@@ -367,7 +413,7 @@ st.dataframe(
 )
 
 
-st.header("7. Export report")
+st.header("8. Export report")
 
 csv = sorted_scored.to_csv(index=False).encode("utf-8-sig")
 
