@@ -26,89 +26,45 @@ Service purpose
 
 The service is designed for analysing exported Windows Event Logs and helping a DBA or system engineer identify suspicious time intervals faster.
 
-The application:
-
-parses System and Application CSV files;
-normalizes event messages;
-maps events to learned templates;
-builds 30-minute event sequences;
-calculates Transformer-based anomaly scores;
-marks suspicious windows;
-shows local event-level evidence;
-estimates anomaly risk for the next time window;
-exports the result as a CSV report.
-Required local artifacts
-
-The service expects trained model artifacts in:
-
-Input data format
-
-The service expects CSV files exported from Windows Event Viewer.
-
-Required columns:
-
-Level
-Date and Time
-Source
-Event ID
-Task Category
-Message
 
 The user can upload one or more files for:
-
 System logs;
 Application logs.
+
 Installation
-
-Clone the repository:
-
+1. Clone the repository:
 git clone https://github.com/Anastasiia2412/log-anomaly-detection-transformers.git
 cd log-anomaly-detection-transformers
 
-Create and activate a virtual environment:
-
+2. Create and activate a virtual environment:
 python3 -m venv .venv
 source .venv/bin/activate
 
-Install dependencies:
-
+3.Install dependencies:
 pip install -r src/requirements.txt
 
 If Streamlit is not installed by the requirements file, install it manually:
-
 pip install streamlit
-Running the service
 
+4.Running the service
 Start the application:
-
 python3 -m streamlit run app.py
 
 The browser will open the service page. If it does not open automatically, copy the local URL from the terminal, usually:
-
 http://localhost:8501
-How to use
-Open the Streamlit application.
-Check that the model status is loaded.
-Upload one or more System CSV files.
-Upload one or more Application CSV files.
-Click Run analysis.
-Review the dataset summary and vocabulary diagnostics.
-Open the anomaly score timeline.
-Inspect suspicious windows and LocalNLL details.
-Check the next-window anomaly risk forecast.
-Download the CSV report if needed.
-Main output fields
 
-The service displays the following results:
+How to use:
+-Open the Streamlit application.
+-Check that the model status is loaded.
+-Upload one or more System CSV files.
+-Upload one or more Application CSV files.
+-Click Run analysis.
+-Review the dataset summary and vocabulary diagnostics.
+-Open the anomaly score timeline.
+-Inspect suspicious windows and LocalNLL details.
+-Check the next-window anomaly risk forecast.
+-Download the CSV report if needed.
 
-anomaly_score — Transformer-based score of unexpected event transitions;
-prediction — binary prediction, where 0 means normal and 1 means anomaly;
-risk_level — low, medium, or high risk level;
-VocabularyCoverage — share of known event tokens in the sequence;
-UnkRatio — share of unknown tokens;
-key_events — important Event IDs and sources in the selected window;
-LocalNLL — local negative log-likelihood for event-level inspection;
-Forecasted risk — estimated anomaly risk for the next 30-minute window.
 
 Notebooks
 
