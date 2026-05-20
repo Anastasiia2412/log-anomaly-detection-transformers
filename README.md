@@ -22,7 +22,8 @@ log-anomaly-detection-transformers/
 │   └── visualization.py    # Timeline visualization
 ├── notebooks/              # Experimental notebooks
 └── README.md
-Service purpose
+
+#Service purpose
 
 The service is designed for analysing exported Windows Event Logs and helping a DBA or system engineer identify suspicious time intervals faster.
 
