@@ -21,7 +21,8 @@ log-anomaly-detection-transformers/
 │   ├── transformer_inference.py # Transformer scoring
 │   └── visualization.py    # Timeline visualization
 ├── notebooks/              # Experimental notebooks
-└── README.md '''
+└── README.md
+```
 
 #Service purpose
 
