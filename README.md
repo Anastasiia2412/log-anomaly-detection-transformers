@@ -24,16 +24,14 @@ log-anomaly-detection-transformers/
 └── README.md
 ```
 
-#Service purpose
+# Service purpose
 
 The service is designed for analysing exported Windows Event Logs and helping a DBA or system engineer identify suspicious time intervals faster.
-
-
 The user can upload one or more files for:
 System logs;
 Application logs.
 
-Installation
+# Installation
 1. Clone the repository:
 git clone https://github.com/Anastasiia2412/log-anomaly-detection-transformers.git
 cd log-anomaly-detection-transformers
@@ -42,20 +40,20 @@ cd log-anomaly-detection-transformers
 python3 -m venv .venv
 source .venv/bin/activate
 
-3.Install dependencies:
+3. Install dependencies:
 pip install -r src/requirements.txt
 
 If Streamlit is not installed by the requirements file, install it manually:
 pip install streamlit
 
-4.Running the service
+4. Running the service
 Start the application:
 python3 -m streamlit run app.py
 
 The browser will open the service page. If it does not open automatically, copy the local URL from the terminal, usually:
 http://localhost:8501
 
-How to use:
+# How to use:
 -Open the Streamlit application.
 -Check that the model status is loaded.
 -Upload one or more System CSV files.
@@ -68,7 +66,7 @@ How to use:
 -Download the CSV report if needed.
 
 
-Notebooks
+# Notebooks
 
 Windows_dataset.ipynb — Windows Event Log parsing and sequence construction;
 Windows_logs_training.ipynb — labelled sequence preparation and training data export;
