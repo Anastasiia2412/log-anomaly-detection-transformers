@@ -53,7 +53,8 @@ python3 -m streamlit run app.py
 The browser will open the service page. If it does not open automatically, copy the local URL from the terminal, usually:
 http://localhost:8501
 
-# How to use:
+## How to use:
+
 -Open the Streamlit application.
 -Check that the model status is loaded.
 -Upload one or more System CSV files.
@@ -66,7 +67,7 @@ http://localhost:8501
 -Download the CSV report if needed.
 
 
-# Notebooks
+## Notebooks
 
 Windows_dataset.ipynb — Windows Event Log parsing and sequence construction;
 Windows_logs_training.ipynb — labelled sequence preparation and training data export;
