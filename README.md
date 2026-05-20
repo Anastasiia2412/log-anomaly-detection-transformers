@@ -55,23 +55,23 @@ http://localhost:8501
 
 ## How to use:
 
--Open the Streamlit application.
--Check that the model status is loaded.
--Upload one or more System CSV files.
--Upload one or more Application CSV files.
--Click Run analysis.
--Review the dataset summary and vocabulary diagnostics.
--Open the anomaly score timeline.
--Inspect suspicious windows and LocalNLL details.
--Check the next-window anomaly risk forecast.
--Download the CSV report if needed.
+- Open the Streamlit application.
+- Check that the model status is loaded.
+- Upload one or more System CSV files.
+- Upload one or more Application CSV files.
+- Click Run analysis.
+- Review the dataset summary and vocabulary diagnostics.
+- Open the anomaly score timeline.
+- Inspect suspicious windows and LocalNLL details.
+- Check the next-window anomaly risk forecast.
+- Download the CSV report if needed.
 
 
 ## Notebooks
 
-Windows_dataset.ipynb — Windows Event Log parsing and sequence construction;
-Windows_logs_training.ipynb — labelled sequence preparation and training data export;
-Transformer_tuning.ipynb — Transformer tuning and aggregation comparison;
-Models.ipynb — baseline models and comparison experiments;
-ServerB.ipynb — transferability testing and threshold calibration;
-ServerC.ipynb — additional server testing.
+- Windows_dataset.ipynb — Windows Event Log parsing and sequence construction;
+- Windows_logs_training.ipynb — labelled sequence preparation and training data export;
+- Transformer_tuning.ipynb — Transformer tuning and aggregation comparison;
+- Models.ipynb — baseline models and comparison experiments;
+- ServerB.ipynb — transferability testing and threshold calibration;
+- ServerC.ipynb — additional server testing.
